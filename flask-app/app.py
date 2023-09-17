@@ -9,7 +9,7 @@ import base64
 # This is really bad.. probably shouldn't be using the root user :)
 config.load_incluster_config()
 v1 = client.CoreV1Api()
-mongo_secrets = v1.read_namespaced_secret("mongodb-secret", "default").data
+mongo_secrets = v1.read_namespaced_secret("mongodb-secret", "my-namespace").data
 
 # setup Mongo client
 client = pymongo.MongoClient("mongodb://mongodb-service.default.svc.cluster.local", username=base64.b64decode(mongo_secrets['mongo-root-username']).decode("ascii"), password=base64.b64decode(mongo_secrets['mongo-root-password']).decode("ascii"))
