@@ -94,7 +94,7 @@ Check on your cluster
 kubectl get all
 kubectl get deployment
 kubectl get service
-kubectl get pod -o wide
+kubectl get pod -o wide # helps get the IPs to compare to service endpoints
 kubectl describe service <SERVICE_NAME>
 ```
 
