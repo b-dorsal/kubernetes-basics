@@ -129,3 +129,17 @@ kubectl describe service <SERVICE_NAME>
 ## Docker Hub Images Links
 - [MongoDB Official Image](https://hub.docker.com/_/mongo)
 - [Mongo Express Official Image](https://hub.docker.com/_/mongo-express)
+
+
+
+## Migrating to Helm Chart
+My next step is converting this configuration to a Helm chart.
+I'm interested in seeing the value of the CLI tool, Helmify, to make conversion easier.
+
+I ran Helmify against the entire k8s directory and it seems to have succeeded.
+
+```bash
+awk 'FNR==1 && NR!=1  {print "---"}{print}' ./k8s/*.yaml | helmify flask-mongo-example-helm
+```
+
+To-do: run the helm chart and confirm functionality.
