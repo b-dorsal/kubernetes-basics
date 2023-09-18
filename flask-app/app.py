@@ -12,7 +12,7 @@ v1 = client.CoreV1Api()
 mongo_secrets = v1.read_namespaced_secret("mongodb-secret", "my-namespace").data
 
 # setup Mongo client
-client = pymongo.MongoClient("mongodb://mongodb-service.default.svc.cluster.local", username=base64.b64decode(mongo_secrets['mongo-root-username']).decode("ascii"), password=base64.b64decode(mongo_secrets['mongo-root-password']).decode("ascii"))
+client = pymongo.MongoClient("mongodb://mongodb-service.my-namespace.svc.cluster.local", username=base64.b64decode(mongo_secrets['mongo-root-username']).decode("ascii"), password=base64.b64decode(mongo_secrets['mongo-root-password']).decode("ascii"))
 
 app = Flask(__name__)
 
@@ -31,10 +31,10 @@ def get_users():
     
     cursor = col.find({})
     
-    result = ""
+    result = "<ul>"
     for document in cursor:
-        result += document['name']
-    
+        result += f'<li>{document["name"]}</li>'
+    result += "</ul>"
     return result
 
 
