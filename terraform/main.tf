@@ -2,8 +2,8 @@
 
 # Create the project
 resource "google_project" "gke_project" {
-    name            = var.project_id
-    project_id      = var.project_id
+    name            = "${var.project_id}-${var.environment}" 
+    project_id      = "${var.project_id}-${var.environment}" 
 }
 
 resource "google_project_service" "project_services" {

@@ -143,3 +143,20 @@ awk 'FNR==1 && NR!=1  {print "---"}{print}' ./k8s/*.yaml | helmify flask-mongo-e
 ```
 
 To-do: run the helm chart and confirm functionality.
+
+
+## Deploying to Google Kubernetes Engine
+The "terraform" directory contains HCL for building out a GCP project and a basic GKE-standard cluster.
+
+### Steps for Terraform
+
+Initialize Terraform
+```bash
+terraform init
+```
+
+Run Terraform Plan
+```bash
+terraform plan -var-file=dev.tfvars
+```
+

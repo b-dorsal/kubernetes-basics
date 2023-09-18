@@ -1,5 +1,11 @@
 
 # Project Setup Vars
+########################################
+variable "environment" {
+    type            = string
+    description     = "Environment ID"
+}
+
 variable "project_id" {
     type            = string
     description     = "ID and name of the project"
@@ -12,6 +18,13 @@ variable "enabled_services" {
 
 
 # GKE Cluster Vars
+########################################
+variable "kubernetes_version" {
+    type            = string
+    default         = "1.18"
+    description     = "Kubernetes version to use"
+}
+
 variable "cluster_zone" {
     type            = string
     default         = "us-central1-a"
