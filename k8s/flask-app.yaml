@@ -44,6 +44,8 @@ metadata:
   name: flask-app-service
   namespace: my-namespace
 spec:
+  selector:
+    app: flask-app-deployment
   type: ClusterIP
   ports:
     - name: http
