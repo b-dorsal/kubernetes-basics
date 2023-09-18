@@ -126,7 +126,7 @@ kubectl describe service <SERVICE_NAME>
 ```
 
 
-## Docker Hub Images Links
+## Docker Hub Image Links
 - [MongoDB Official Image](https://hub.docker.com/_/mongo)
 - [Mongo Express Official Image](https://hub.docker.com/_/mongo-express)
 
