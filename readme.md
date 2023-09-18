@@ -87,6 +87,23 @@ Apply Flask App Ingress
 kubectl apply -f flask-ingress.yaml
 ```
 
+The domain name flaskapp.com doesnt belong to me. To make this work in the local environment, add flaskapp.com to your /etc/hosts file
+
+Get the Address from the ingress service
+```bash
+kubectl describe ingress -n my-namespace
+```
+
+Edit your hosts file
+```bash
+vim /etc/hosts
+```
+
+Add the hosts entry
+```
+<INGRESS ADDRESS>    flaskapp.com
+```
+
 <!-- Assign External IP to Flask App LB Service
 ```bash
 minikube service flask-app-service
