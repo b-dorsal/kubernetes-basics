@@ -19,6 +19,12 @@ Start Minikube using kyperkid VM driver
 minikube start --driver=hyperkit
 ```
 
+Create the standard namespace
+To-do: I'm creating everything under the same namespace. It's a tiny app so who cares.. just for demonstration purposes.
+```bash
+kubectl apply -f namespace.yaml
+```
+
 ### Setup Mongo
 
 Create secrets for MongoDB username and password
