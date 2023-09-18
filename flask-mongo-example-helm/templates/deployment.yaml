@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "flask-mongo-example-helm.fullname" . }}-flask-app-deployment
+  labels:
+  {{- include "flask-mongo-example-helm.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.flaskAppDeployment.replicas }}
+  selector:
+    matchLabels:
+      app: flask-app-deployment
+    {{- include "flask-mongo-example-helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: flask-app-deployment
+      {{- include "flask-mongo-example-helm.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.flaskAppDeployment.flaskAppDeployment.image.repository }}:{{
+          .Values.flaskAppDeployment.flaskAppDeployment.image.tag | default .Chart.AppVersion
+          }}
+        name: flask-app-deployment
+        ports:
+        - containerPort: 5000
+        resources: {{- toYaml .Values.flaskAppDeployment.flaskAppDeployment.resources |
+          nindent 10 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "flask-mongo-example-helm.fullname" . }}-express
+  labels:
+    app: mongo-express
+  {{- include "flask-mongo-example-helm.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.express.replicas }}
+  selector:
+    matchLabels:
+      app: mongo-express
+    {{- include "flask-mongo-example-helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: mongo-express
+      {{- include "flask-mongo-example-helm.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+          valueFrom:
+            secretKeyRef:
+              key: mongo-root-username
+              name: {{ include "flask-mongo-example-helm.fullname" . }}-db-secret
+        - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: mongo-root-password
+              name: {{ include "flask-mongo-example-helm.fullname" . }}-db-secret
+        - name: ME_CONFIG_MONGODB_SERVER
+          valueFrom:
+            configMapKeyRef:
+              key: database_url
+              name: {{ include "flask-mongo-example-helm.fullname" . }}-db-configmap
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.express.mongoExpress.image.repository }}:{{ .Values.express.mongoExpress.image.tag
+          | default .Chart.AppVersion }}
+        name: mongo-express
+        ports:
+        - containerPort: 8081
+        resources: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "flask-mongo-example-helm.fullname" . }}-db-deployment
+  labels:
+    app: mongodb
+  {{- include "flask-mongo-example-helm.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.dbDeployment.replicas }}
+  selector:
+    matchLabels:
+      app: mongodb
+    {{- include "flask-mongo-example-helm.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: mongodb
+      {{- include "flask-mongo-example-helm.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - env:
+        - name: MONGO_INITDB_ROOT_USERNAME
+          valueFrom:
+            secretKeyRef:
+              key: mongo-root-username
+              name: {{ include "flask-mongo-example-helm.fullname" . }}-db-secret
+        - name: MONGO_INITDB_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              key: mongo-root-password
+              name: {{ include "flask-mongo-example-helm.fullname" . }}-db-secret
+        - name: KUBERNETES_CLUSTER_DOMAIN
+          value: {{ quote .Values.kubernetesClusterDomain }}
+        image: {{ .Values.dbDeployment.mongodb.image.repository }}:{{ .Values.dbDeployment.mongodb.image.tag
+          | default .Chart.AppVersion }}
+        name: mongodb
+        ports:
+        - containerPort: 27017
+        resources: {}

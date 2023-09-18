@@ -1,0 +1,47 @@
+dbConfigmap:
+  databaseUrl: mongodb-service
+dbDeployment:
+  mongodb:
+    image:
+      repository: mongo
+      tag: latest
+  replicas: 1
+dbSecret:
+  mongoRootPassword: ""
+  mongoRootUsername: ""
+dbService:
+  ports:
+  - port: 27017
+    protocol: TCP
+    targetPort: 27017
+  type: ClusterIP
+express:
+  mongoExpress:
+    image:
+      repository: mongo-express
+      tag: latest
+  replicas: 1
+expressService:
+  ports:
+  - nodePort: 30000
+    port: 8081
+    protocol: TCP
+    targetPort: 8081
+  type: LoadBalancer
+flaskAppDeployment:
+  flaskAppDeployment:
+    image:
+      repository: bdor528/flask-kubernetes
+      tag: latest
+    resources:
+      limits:
+        cpu: 500m
+        memory: 128Mi
+  replicas: 1
+flaskAppService:
+  ports:
+  - name: http
+    port: 5000
+    targetPort: 5000
+  type: ClusterIP
+kubernetesClusterDomain: cluster.local

@@ -1,0 +1,6 @@
+{
+    "yaml.schemas": {
+        "file:///Users/admin/.vscode/extensions/atlassian.atlascode-2.10.12/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml",
+        "https://json.schemastore.org/helmfile.json": "file:///Users/admin/Documents/kubernetes-examples/kubernetes-class/flask-mongo-example-helm/templates/db-secret.yaml"
+    }
+}
