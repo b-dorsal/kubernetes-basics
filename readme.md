@@ -82,10 +82,15 @@ Apply Flask App Deployment and Service
 kubectl apply -f flask-app.yaml
 ```
 
-Assign External IP to Flask App LB Service
+Apply Flask App Ingress
+```bash
+kubectl apply -f flask-ingress.yaml
+```
+
+<!-- Assign External IP to Flask App LB Service
 ```bash
 minikube service flask-app-service
-```
+``` -->
 
 ### Basic Commands for Checking on the Cluster
 Check on your cluster
@@ -101,17 +106,3 @@ kubectl describe service <SERVICE_NAME>
 ## Docker Hub Images Links
 - [MongoDB Official Image](https://hub.docker.com/_/mongo)
 - [Mongo Express Official Image](https://hub.docker.com/_/mongo-express)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
