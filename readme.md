@@ -12,7 +12,7 @@ Trying to grow my knowledge of k8s outside of my usual GKE infrastructure config
 
 ## Usage
 
-### Start Cluster
+### Start Minikube Cluster
 
 Start Minikube using kyperkid VM driver
 ```bash
