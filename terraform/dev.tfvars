@@ -2,6 +2,7 @@
 ########################################
 environment         = "dev"
 project_id          = "gke-example"
+billing_account_id  = "Dataflow Tutorials"
 
 enabled_services    = [ 
     "container.googleapis.com",

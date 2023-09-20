@@ -11,6 +11,11 @@ variable "project_id" {
     description     = "ID and name of the project"
 }
 
+variable "billing_account_id" {
+    type            = string
+    description     = "Billing account ID"
+}
+
 variable "enabled_services" {
     type            = list(string)
     description     = "List of services/APIs to enable on the project"
