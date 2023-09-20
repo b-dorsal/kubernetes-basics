@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mongo-express
-  namespace: my-namespace
+  namespace: flask-app-ns
   labels:
     app: mongo-express
 spec:
@@ -43,7 +43,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mongo-express-service
-  namespace: my-namespace
+  namespace: flask-app-ns
 spec:
   selector:
     app: mongo-express

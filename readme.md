@@ -97,7 +97,7 @@ The domain name flaskapp.com doesnt belong to me. To make this work in the local
 
 Get the Address from the ingress service
 ```bash
-kubectl describe ingress -n my-namespace
+kubectl describe ingress -n flask-app-ns
 ```
 
 Edit your hosts file
@@ -143,3 +143,46 @@ awk 'FNR==1 && NR!=1  {print "---"}{print}' ./k8s/*.yaml | helmify flask-mongo-e
 ```
 
 To-do: run the helm chart and confirm functionality.
+
+
+## Deploying to Google Kubernetes Engine
+The "terraform" directory contains HCL for building out a GCP project and a basic GKE-standard cluster.
+
+### Steps for Terraform
+
+Initialize Terraform
+```bash
+terraform init
+```
+
+Run Terraform Plan
+```bash
+terraform plan -var-file=dev.tfvars
+```
+
+Run Terraform Plan
+```bash
+terraform apply -var-file=dev.tfvars
+```
+
+#### Deploy to the GKE cluster
+
+Get the cluster credentials
+```bash
+gcloud container clusters get-credentials flask-app-cluster --region=us-central1-b
+```
+
+Deploy our config - still havent made this into a Helm chart
+```bash
+kubectl apply -f namespace.yaml
+kubectl apply -f mongo-secret.yaml
+kubectl apply -f mongo-configmap.yaml
+kubectl apply -f mongo.yaml
+kubectl apply -f flask-app.yaml
+kubectl apply -f flask-ingress.yaml
+```
+
+Wait for an IP on ingress, and visit in a browser
+```bash
+kubectl get flask-ingress -n flask-app-ns
+```

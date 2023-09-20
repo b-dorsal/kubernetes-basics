@@ -1,21 +1,35 @@
+# # MINIKUBE
+# apiVersion: networking.k8s.io/v1
+# kind: Ingress
+# metadata:
+#   name: flask-ingress
+#   namespace: flask-app-ns
+#   annotations:
+#     nginx.ingress.kubernetes.io/backend-protocol: HTTP
+#     kubernetes.io/ingress.class: nginx
+#     nginx.ingress.kubernetes.io/rewrite-target: /
+# spec:
+#   rules:
+#   - host: flaskapp.com
+#     http:
+#       paths:
+#       - pathType: Prefix
+#         path: /
+#         backend:
+#           service: 
+#             name: flask-app-service
+#             port: 
+#               number: 5000
+
+# # GKE
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: flask-ingress
-  namespace: my-namespace
-  annotations:
-    nginx.ingress.kubernetes.io/backend-protocol: HTTP
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /
+  namespace: flask-app-ns
 spec:
-  rules:
-  - host: flaskapp.com
-    http:
-      paths:
-      - pathType: Prefix
-        path: /
-        backend:
-          service: 
-            name: flask-app-service
-            port: 
-              number: 5000
+  defaultBackend:
+    service:
+      name: flask-app-service
+      port:
+        number: 5000

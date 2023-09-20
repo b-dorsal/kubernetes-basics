@@ -2,17 +2,14 @@
 
 from flask import Flask
 import pymongo
-from kubernetes import client, config
+import os
 import base64
 
-# Get kubernetes secrets for mongo username/password
-# This is really bad.. probably shouldn't be using the root user :)
-config.load_incluster_config()
-v1 = client.CoreV1Api()
-mongo_secrets = v1.read_namespaced_secret("mongodb-secret", "my-namespace").data
+username = os.getenv('PYMONGO_USERNAME')
+password = os.getenv('PYMONGO_PASSWORD')
 
 # setup Mongo client
-client = pymongo.MongoClient("mongodb://mongodb-service.my-namespace.svc.cluster.local", username=base64.b64decode(mongo_secrets['mongo-root-username']).decode("ascii"), password=base64.b64decode(mongo_secrets['mongo-root-password']).decode("ascii"))
+client = pymongo.MongoClient("mongodb://mongodb-service.flask-app-ns.svc.cluster.local", username=username, password=password)
 
 app = Flask(__name__)
 

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: flask-app-deployment
-  namespace: my-namespace
+  namespace: flask-app-ns
 spec:
   replicas: 1
   selector:
@@ -22,32 +22,48 @@ spec:
             cpu: "500m"
         ports:
         - containerPort: 5000
+
+        env:
+        - name: PYMONGO_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongo-root-username
+
+        - name: PYMONGO_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mongodb-secret
+              key: mongo-root-password
 ---
 
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: flask-app-service
-# spec:
-#   selector:
-#     app: flask-app-deployment
-#   ports:
-#   - protocol: TCP
-#     port: 5000
-#     targetPort: 5000
-#     nodePort: 30001
-#   type: LoadBalancer
-
+# # GKE
 apiVersion: v1
 kind: Service
 metadata:
   name: flask-app-service
-  namespace: my-namespace
+  namespace: flask-app-ns
 spec:
   selector:
     app: flask-app-deployment
-  type: ClusterIP
   ports:
-    - name: http
-      targetPort: 5000
-      port: 5000
+  - protocol: TCP
+    port: 5000
+    targetPort: 5000
+    # nodePort: 30001
+  type: LoadBalancer
+
+# MINIKUBE
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: flask-app-service
+#   namespace: flask-app-ns
+# spec:
+#   selector:
+#     app: flask-app-deployment
+#   type: ClusterIP
+#   ports:
+#     - name: http
+#       targetPort: 5000
+#       port: 5000

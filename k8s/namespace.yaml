@@ -1,6 +1,6 @@
 kind: Namespace
 apiVersion: v1
 metadata:
-  name: my-namespace
+  name: flask-app-ns
   labels:
-    name: my-namespace
+    name: flask-app-ns
